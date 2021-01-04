@@ -9,6 +9,7 @@ bgg = BGGClient()
 bgg_sqlite_cache = BGGClient(cache=CacheBackendSqlite(path="./cache.db", ttl=86400)) # ttl = 1 day (60 s * 60 m * 24 h) Does this even work?
 
 year = 2019
+also_old = True
 user_name = 'mortenjohs'
 other_player_names = ["Gab", "Nina", "Jean", "Pierrot", "Florent", "Clem", "Laure"]
 
@@ -27,15 +28,16 @@ def get_game(id, bgg_client):
     return bgg_client.game(game_id=id)
   except boardgamegeek.exceptions.BGGApiError as e:
     print(e)
-    print("\nBGG limit reached? -- Sleeping for 60 seconds")
-    time.sleep(60) # sleep for one minute -- is that enough?
+    s = 120
+    print("\nBGG limit reached? -- Sleeping for "+ str(s) + " seconds")
+    time.sleep(s) # sleep for two minutes -- is that enough?
 
 for p in plays:
   is_new = False
   if p.date.year == year:
     for pl in p.players:
       if pl.username == user_name:
-        if pl.new == "1":
+        if pl.new == "1" or also_old:
           print(".", end ="") 
           games[p.game_id] = get_game(p.game_id,bgg_sqlite_cache)
 
@@ -48,7 +50,7 @@ for name in other_player_names:
     if p.date.year == year:
       for pl in p.players:
         if pl.name == name:
-          if pl.new == "1":
+          if pl.new == "1" or also_old:
             print(".", end ="")
             games_others[name][p.game_id] = get_game(p.game_id,bgg_sqlite_cache)
         
