@@ -8,8 +8,8 @@ import time
 bgg = BGGClient()
 bgg_sqlite_cache = BGGClient(cache=CacheBackendSqlite(path="./cache.db", ttl=86400)) # ttl = 1 day (60 s * 60 m * 24 h) Does this even work?
 
-year = 2019
-also_old = True
+year = 2020
+also_old = False
 user_name = 'mortenjohs'
 other_player_names = ["Gab", "Nina", "Jean", "Pierrot", "Florent", "Clem", "Laure"]
 
