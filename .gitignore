@@ -1,4 +1,4 @@
 .vscode/settings.json
-new_games_2019.txt
+new_games_*.txt
 cache.db
-output.txt
+output_*.txt
